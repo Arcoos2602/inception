@@ -1,0 +1,13 @@
+services:
+  nginx:
+    container_name: nginx
+    image:
+    build: requirements/nginx
+    ports:
+      - "9000"
+    #volumes:
+  mariadb:
+    container_name: mariadb
+    build: requirement/mariadb
+    ports:
+      - "3306"
