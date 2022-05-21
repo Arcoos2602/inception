@@ -26,6 +26,6 @@ COPY conf/nginx.conf /usr/local/etc/nginx/
 COPY conf/index.html /data/www/
 COPY conf/test.jpg /data/images/
 # nginx .pid
-RUN nginx -c /usr/local/etc/nginx/nginx.conf # -c stands configuration file.
-RUN nginx
+#RUN nginx -c /usr/local/etc/nginx/nginx.conf # -c stands configuration file.
+CMD [ "nginx" ]
 EXPOSE 443/tcp

@@ -1,13 +1,15 @@
+version: "3"
 services:
+  mysql:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    volumes:
+      - /data/mysql/:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD = test
+      - MYSQL_DATABASE = test
+      - MYSQL_USER = mysql
+    restart: always
   nginx:
     container_name: nginx
-    image:
-    build: requirements/nginx
-    ports:
-      - "9000"
-    #volumes:
-  mariadb:
-    container_name: mariadb
-    build: requirement/mariadb
-    ports:
-      - "3306"
+    build: ./requirements/nginx
