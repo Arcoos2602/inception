@@ -22,10 +22,10 @@ RUN apk add nginx@nginx
 RUN mkdir /data/
 RUN mkdir /data/www
 RUN mkdir /data/images
-COPY conf/nginx.conf /usr/local/etc/nginx/
-COPY conf/index.html /data/www/
-COPY conf/test.jpg /data/images/
+#COPY conf/nginx.conf /usr/local/etc/nginx/
+#COPY conf/index.html /data/www/
+#COPY conf/test.jpg /data/images/
 # nginx .pid
 #RUN nginx -c /usr/local/etc/nginx/nginx.conf # -c stands configuration file.
-CMD [ "nginx" ]
-EXPOSE 443/tcp
+CMD ["nginx", "-g","daemon off;"]
+EXPOSE 443 443

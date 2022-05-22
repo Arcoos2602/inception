@@ -1,10 +1,14 @@
 version: "3"
 services:
+  #wordpress:
+   # container_name: wordpress
+    #volumes:
+     # - /home/tcordonn/data:/var/lib/mysql
   mysql:
     container_name: mariadb
     build: ./requirements/mariadb
-    volumes:
-      - /data/mysql/:/var/lib/mysql
+    #volumes:
+      #1- /data/mysql/:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD = test
       - MYSQL_DATABASE = test
@@ -12,4 +16,10 @@ services:
     restart: always
   nginx:
     container_name: nginx
-    build: ./requirements/nginx
+    build: ./requirements/nginx/
+    volumes:
+      - ./requirements/nginx/conf/:/usr/local/etc/nginx/ # needs wordpress data
+    ports:
+      - 80:80 #443:443
+    restart: always
+#networks:
