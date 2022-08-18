@@ -4,13 +4,29 @@ services:
     image: mariadb
     container_name: mariadb
     volumes:
-      - ${PWD}/requirements/mariadb:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql_root_pass
-      MYSQL_DATABASE: db_name      
-      MYSQL_USER: user_name
-      MYSQL_PASSWORD: user_pass 
+     - /home/${USER}/data/mysql:/var/lib/mysql # modify to put in home/login/data : have problem with right access
+    env_file:
+      - ${PWD}/requirements/mariadb/.env.data
+    restart:
+      always
+  wordpress:
+    image: wordpress:php7.3-fpm-alpine
+    container_name: wordpress
+    volumes:
+      - /home/${USER}/data/html:/var/www/html
+    depends_on:
+      - mariadb # to start database before this service
+    env_file:
+      - ${PWD}/requirements/wordpress/.env.wordpress
     restart:
       always
   nginx:
-    
+    container_name: nginx
+    #image: nginx:alpine
+    build: requirements/nginx/
+    ports:
+      #- 443:443
+      - 8080:8080 # to remove
+    #links: # interdit
+    #  - wordpress
+  #networks: #now using default network <-- to modify
