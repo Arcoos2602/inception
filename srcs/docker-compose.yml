@@ -6,18 +6,19 @@ services:
     volumes:
      - /home/${USER}/data/mysql:/var/lib/mysql # modify to put in home/login/data : have problem with right access
     env_file:
-      - ${PWD}/srcs/requirements/mariadb/.env.data
+      - .env
     restart:
       always
   wordpress:
     image: wordpress:php7.3-fpm-alpine
+    #build: requirements/wordpress/
     container_name: wordpress
     volumes:
       - /home/${USER}/data/html:/var/www/html
     depends_on:
       - mariadb # to start database before this service
     env_file:
-      - ${PWD}/srcs/requirements/wordpress/.env.wordpress
+      - .env
     restart:
       always
   nginx:

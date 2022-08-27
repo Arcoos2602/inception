@@ -1,0 +1,1 @@
+# scipt to set up wordpress
