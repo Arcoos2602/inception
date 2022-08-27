@@ -21,7 +21,6 @@ RUN mkdir /etc/nginx/certificates && \
 		    -out /etc/nginx/certificates/tcordonn.cert \
 		    -nodes \
 		    -subj /CN=tcordonn.42.fr
-EXPOSE 443 443
 # DEPRECATED KEY
 #RUN curl -o /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub
 #RUN openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout
@@ -30,3 +29,4 @@ EXPOSE 443 443
 COPY ./conf/nginx.conf /etc/nginx/
 # CMD RUNNED BY ROOT NOT SECURE PID 1
 CMD ["nginx", "-g","daemon off;"]
+EXPOSE 443
