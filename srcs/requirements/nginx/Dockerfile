@@ -2,8 +2,7 @@ FROM alpine:latest
 # install prerequisites
 RUN apk update \
     apk install \
-    && apk add openssl curl ca-certificates \
-    && apk add nginx
+    && apk add openssl curl ca-certificates nginx
 RUN mkdir /etc/nginx/certificates && \
 	    openssl req \
 		    -x509 \
@@ -13,8 +12,10 @@ RUN mkdir /etc/nginx/certificates && \
 		    -out /etc/nginx/certificates/tcordonn.cert \
 		    -nodes \
 		    -subj /CN=tcordonn.42.fr
+RUN chown -R nginx:nginx /etc/nginx/certificates
 # copy config file
 COPY ./conf/nginx.conf /etc/nginx/
-# CMD RUNNED BY ROOT NOT SECURE PID 1
-CMD ["nginx", "-g","daemon off;"] 
+# can't be runned as nginx due to rights
+USER nginx
+CMD ["nginx", "-g","daemon off;"]
 EXPOSE 443

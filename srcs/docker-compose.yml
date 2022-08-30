@@ -10,8 +10,8 @@ services:
     restart:
       always
   wordpress:
-    image: wordpress:php7.3-fpm-alpine
-    #build: requirements/wordpress/
+    #image: wordpress:php7.3-fpm-alpine
+    build: requirements/wordpress/
     container_name: wordpress
     volumes:
       - /home/${USER}/data/html:/var/www/html
@@ -28,4 +28,4 @@ services:
       - "443:443"
     #links: # interdit
     #  - wordpress
-  #networks: #now using default network <-- to modify
+#networks: #now using default network <-- to modify

@@ -1,17 +1,20 @@
-FROM debian:buster
+FROM alpine:latest
 
-RUN apt update \
-    && apt upgrade \
-    && apt install curl -y \
-    && apt install php-gd php-mbstring php-fpm php-xml php-xmlrpc php-soap php-intl php-zip -y
+WORKDIR /var/www/wordpress
+RUN     apk update && apk upgrade && apk add --update --no-cache \
+            php8 \
+            php8-fpm \
+            php8-opcache \
+            php8-mysqli \
+            php8-phar \
+            php8-iconv \
+            mysql-client \
+            shadow \
+            curl \
+ &&     rm -f /var/cache/apk/*
 
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-
-# do equivalent of the script in the container
-RUN mkdir -p /var/www/html
 COPY ./cli/docker-entrypoint.sh /usr/local/bin
-COPY ./conf/php-fpm.conf /etc/php 
-
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# USE WORKDIR THIS IS UGLY
+ENTRYPOINT [ "/usr/local/bin/docker-entrypoint.sh" ]
 EXPOSE 9000
-ENTRYPOINT ["cat"]
-#ENTRYPOINT [ "docker-entrypoint.sh" ]
