@@ -12,16 +12,16 @@ chmod +x wp-cli.phar
 # configure wp
 echo "installation valid"
 
-./wp-cli.phar config create --dbname=$WORDPRESS_DB_NAME --dbuser=$WORDPRESS_DB_USER --dbpass=$WORDPRESS_DB_PASSWORD --dbhost=$WORDPRESS_DB_HOST \
+#./wp-cli.phar config create --dbname=$WORDPRESS_DB_NAME --dbuser=$WORDPRESS_DB_USER --dbpass=$WORDPRESS_DB_PASSWORD --dbhost=$WORDPRESS_DB_HOST \
     #--dbprefix=$WP_TABLE_PREFIX \
     #--dbcharset=$WP_DB_CHARSET \
     #--dbcollate=$WP_DB_COLLATE
 
 # create wordpress database
-./wp-cli.phar db create
+#./wp-cli.phar db create
 
 # install wordpress
-./wp-cli.phar core install  --url=$WORDPRESS_SITE_URL --title=$WORDPRESS_SITE_TITLE --admin_user=$WORDPRESS_DB_USER --admin_password=$WORDPRESS_DB_PASSWORD --admin_email==$WORDPRESS_ADMIN_EMAIL --skip-email
+#./wp-cli.phar core install  --url=$WORDPRESS_SITE_URL --title=$WORDPRESS_SITE_TITLE --admin_user=$WORDPRESS_DB_USER --admin_password=$WORDPRESS_DB_PASSWORD --admin_email==$WORDPRESS_ADMIN_EMAIL --skip-email
     #--title=$WP_SITE_TITLE \
     #-admin_user=$WP_DB_ADM_USER \
 
@@ -31,7 +31,9 @@ echo "installation valid"
 #rm -rf /tmp/mysql/wp_db_user.sql /tmp/mysql/import.sql
 
 # add a theme
-./wp-cli.phar theme install twentytwenty --activate
+#./wp-cli.phar theme install twentytwenty --activate
 
 # launch php-fpm
-php-fpm8
+rc-service php-fpm8 start
+
+#php-fpm8 --daemonize
