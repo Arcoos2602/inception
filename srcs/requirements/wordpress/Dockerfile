@@ -1,27 +1,18 @@
-FROM alpine:latest
+FROM debian:buster
+
+RUN apt-get -y update && apt-get -y upgrade && apt install -y curl\
+ && apt-get update && apt-get install -y wget php7.3-fpm php7.3-mysql php7.3-json php7.3-xmlrpc php7.3-curl php7.3-gd php7.3-xml php7.3-mbstring expect 
+
+COPY ./php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
+COPY ./www.conf    /etc/php/7.3/fpm/pool.d/www.conf
+COPY ./docker_entrypoint.sh  /usr/local/bin
 
 WORKDIR /var/www/wordpress
-RUN     apk update && apk upgrade && apk add --update --no-cache \
-            php8 \
-            php8-fpm \
-            php8-opcache \
-            php8-mysqli \
-            php8-phar \
-            php8-iconv \
-            mysql-client \
-            shadow \
-            curl \
-            openrc \
- &&     rm -f /var/cache/apk/*
+COPY ./wp-config.php  ./
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar  \
+&& php wp-cli.phar --info \
+&& chmod +x wp-cli.phar \
+&& mv wp-cli.phar /usr/local/bin/wp \
+&& wp --info
 
-RUN useradd www-data -g www-data \
- &&     mkdir -p /home/www-data \
- &&     chown -R www-data:www-data /home/www-data /var/www/wordpress
-COPY    conf/php-fpm.conf   /etc/php8/
-COPY    conf/www.conf   /etc/php8/php-fpm.d/
-COPY ./cli/docker-entrypoint.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-# USE WORKDIR THIS IS UGLY
-#USER www-data
-ENTRYPOINT [ "/usr/local/bin/docker-entrypoint.sh" ]
-EXPOSE 9000
+ENTRYPOINT [ "docker_entrypoint.sh" ]

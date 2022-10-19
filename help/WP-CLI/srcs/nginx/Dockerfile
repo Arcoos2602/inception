@@ -1,5 +1,5 @@
 FROM debian:buster
-LABEL maintainer="mkayumba@student.42.fr"
+LABEL maintainer="tcordonn@student.42.fr"
 RUN apt-get update \
 && apt-get -y upgrade \ 
 && apt-get -y install nginx

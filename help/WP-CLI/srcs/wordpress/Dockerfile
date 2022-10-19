@@ -1,5 +1,5 @@
 FROM debian:buster
-LABEL maintainer="mkayumba@student.42.fr"
+LABEL maintainer="tcordonn@student.42.fr"
 
 RUN apt-get -y update && apt-get -y upgrade && apt install -y curl\
  && apt-get update && apt-get install -y wget php7.3-fpm php7.3-mysql php7.3-json php7.3-xmlrpc php7.3-curl php7.3-gd php7.3-xml php7.3-mbstring expect 

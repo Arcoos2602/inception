@@ -1,7 +1,19 @@
-FROM alpine::latest
-# Create user and set ownership and permissions as required
-RUN adduser -D myuser && chown -R myuser /myapp-data
-# ... copy application files
-ENTRYPOINT ["/myapp"]
-USER myuser
-RUN apk update
+FROM debian:buster
+LABEL maintainer="tcordonn@student.42.fr"
+RUN apt-get update \
+        && apt-get -y install apt-utils mariadb-server mariadb-client \
+        && rm -rf /var/lib/mysql \
+        && mkdir -p /var/lib/mysql /run/mysqld \
+        && chown -R mysql:mysql /var/lib/mysql  /run/mysqld \
+        && chmod 777 /var/run/mysqld\
+		&&  apt-get -y install emacs
+
+VOLUME /var/lib/mysql
+
+COPY ./start.sh ./
+COPY ./dump.sql ./
+EXPOSE 3306
+
+ENTRYPOINT ["./start.sh"]
+
+# CMD ["mysqld"]

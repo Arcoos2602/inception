@@ -1,31 +1,45 @@
 version: "3"
 services:
   mariadb:
+    #build: requirements/mariadb
     image: mariadb
     container_name: mariadb
     volumes:
-     - /home/${USER}/data/mysql:/var/lib/mysql # modify to put in home/login/data : have problem with right access
+     - /home/${USER}/data/mariadb:/var/lib/mysql
     env_file:
       - .env
     restart:
       always
   wordpress:
-    #image: wordpress:php7.3-fpm-alpine
     build: requirements/wordpress/
     container_name: wordpress
     volumes:
-      - /home/${USER}/data/html:/var/www/html
+      - /home/${USER}/data/wordpress:/var/www/wordpress
     depends_on:
-      - mariadb # to start database before this service
+      - mariadb
     env_file:
       - .env
-    #restart:
-     # always
+    restart: # for debug remove
+      always
   nginx:
     container_name: nginx
     build: requirements/nginx/
+    volumes:
+     - /home/${USER}/data/wordpress:/var/www/html
     ports:
       - "443:443"
-    #links: # interdit
-    #  - wordpress
-#networks: #now using default network <-- to modify
+networks:
+  docker_network:
+
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/${USER}/data/mariadb
+      o: bind
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/${USER}/data/wordpress
