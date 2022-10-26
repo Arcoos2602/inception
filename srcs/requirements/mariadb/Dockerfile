@@ -14,6 +14,7 @@ COPY ./start.sh ./
 COPY ./dump.sql ./
 EXPOSE 3306
 
-ENTRYPOINT ["./start.sh"]
+# creating what is asked
+#ENTRYPOINT ["./start.sh"]
 
-# CMD ["mysqld"]
+CMD ["mysqld"]

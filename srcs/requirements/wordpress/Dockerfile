@@ -12,7 +12,7 @@ COPY ./wp-config.php  ./
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar  \
 && php wp-cli.phar --info \
 && chmod +x wp-cli.phar \
-&& mv wp-cli.phar /usr/local/bin/wp \
-&& wp --info
+&& mv wp-cli.phar /usr/local/bin/wp
 
+#USER www-data
 ENTRYPOINT [ "docker_entrypoint.sh" ]

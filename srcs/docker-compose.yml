@@ -1,16 +1,17 @@
 version: "3"
 services:
   mariadb:
-    #build: requirements/mariadb
-    image: mariadb
+    build: requirements/mariadb
+    # image: mariadb
     container_name: mariadb
     volumes:
      - /home/${USER}/data/mariadb:/var/lib/mysql
     env_file:
       - .env
-    restart:
-      always
+    #restart:
+     # always
   wordpress:
+    #image: wordpress:php7.3-fpm-alpine
     build: requirements/wordpress/
     container_name: wordpress
     volumes:
@@ -28,18 +29,20 @@ services:
      - /home/${USER}/data/wordpress:/var/www/html
     ports:
       - "443:443"
-networks:
-  docker_network:
+     # - "8080:80"
 
-volumes:
-  db_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/${USER}/data/mariadb
-      o: bind
-  wordpress_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/${USER}/data/wordpress
+#networks:
+#  docker_network:
+
+#volumes:
+ # db_data:
+  #  driver: local
+   # driver_opts:
+    #  type: none
+     # device: /home/${USER}/data/mariadb
+     # o: bind
+  #wordpress_data:
+   # driver: local
+   # driver_opts:
+    #  type: none
+     # device: /home/${USER}/data/wordpress

@@ -4,8 +4,7 @@ if [ ! -d $DATADIR/mysql ]; then #check if database is not already created
 	echo "\n[i]Initialization of database\n"
 	mysql_install_db --datadir=$DATADIR   > /dev/null
 
-	echo "\n[i] start mysqld_safe it is a wrapper that starts mysqld with some extra safety features. 
-	For example, if mysqld_safe notices that mysqld has crashed, then mysqld_safe will automatically restart mysqld.\n"
+	# starting my_sqld with mysqld_safe ( for safety )
 	mysqld_safe &
 
 	sleep 2
@@ -29,7 +28,7 @@ if [ ! -d $DATADIR/mysql ]; then #check if database is not already created
 	EOF
 	sleep 2
 	echo "[i] Insert back up databases '$MARIADB_DATABASE'"
-	mysql -u root -p"$ROOT_PASSWORD" wordpress < ./dump.sql
+	mysql -u root -p"$ROOT_PASSWORD" wordpress < ./dump.sql # to have database
 	sleep 2
 	#echo "[i] Shut down the server with mysqladmin"
 	mysqladmin -uroot -p"$ROOT_PASSWORD" shutdown
@@ -40,5 +39,6 @@ else
 	echo "\n[i] Skipping initializatio cause Mysql database is already created"
 fi
 
+# starting as root is ugly
 echo "[i] Starting mariadb server\n"
 exec mysqld -u root
