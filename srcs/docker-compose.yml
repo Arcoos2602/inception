@@ -2,7 +2,6 @@ version: "3"
 services:
   mariadb:
     build: requirements/mariadb
-    # image: mariadb
     container_name: mariadb
     volumes:
      - /home/${USER}/data/mariadb:/var/lib/mysql
@@ -11,7 +10,6 @@ services:
     #restart:
      # always
   wordpress:
-    #image: wordpress:php7.3-fpm-alpine
     build: requirements/wordpress/
     container_name: wordpress
     volumes:
@@ -29,7 +27,6 @@ services:
      - /home/${USER}/data/wordpress:/var/www/html
     ports:
       - "443:443"
-     # - "8080:80"
 
 #networks:
 #  docker_network:
